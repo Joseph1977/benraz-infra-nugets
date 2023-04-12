@@ -16,9 +16,9 @@
       <PackageLicenseUrl></PackageLicenseUrl>
       <PackageIconUrl></PackageIconUrl>
       <IsPackable>true</IsPackable>
-      <Version>1.0.1</Version>
-      <AssemblyVersion>1.0.1</AssemblyVersion>
-      <FileVersion>1.0.1</FileVersion>
+      <Version>1.0.2</Version>
+      <AssemblyVersion>1.0.2</AssemblyVersion>
+      <FileVersion>1.0.2</FileVersion>
       <AssemblyName>Benraz.Infrastructure.Emails</AssemblyName>
       <RootNamespace>Benraz.Infrastructure.Emails</RootNamespace>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
