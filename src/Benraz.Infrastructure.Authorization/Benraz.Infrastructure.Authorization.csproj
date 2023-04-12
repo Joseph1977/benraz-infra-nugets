@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Benraz.Infrastructure.Authorization</PackageId>
+    <Description>Authorization package. Provides common services for authorization implementation.</Description>
+    <Company>Benraz</Company>
+    <ProjectGuid>6A6B4305-2669-4930-8B66-B8302B3D6595</ProjectGuid>
+    <Authors>Benraz</Authors>
+    <License>MIT License</License>
+    <Copyright>Copyright ©</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <IsPackable>true</IsPackable>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <AssemblyName>Benraz.Infrastructure.Authorization</AssemblyName>
+    <RootNamespace>Benraz.Infrastructure.Authorization</RootNamespace>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Benraz.Infrastructure.Gateways\Benraz.Infrastructure.Gateways.csproj" />
+  </ItemGroup>
+
+</Project>
+
+

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Benraz.Infrastructure.EF</PackageId>
+    <Description>Entity Framework .NET Core package. Contains common services for data-access layer implementation using Entity Framework Core.</Description>
+    <Company>Benraz</Company>
+    <ProjectGuid>5F3190E1-E825-42F2-A7A9-D180863358B1</ProjectGuid>
+    <Authors>Benraz</Authors>
+    <License>MIT License</License>
+    <Copyright>Copyright ©</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <IsPackable>true</IsPackable>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <AssemblyName>Benraz.Infrastructure.EF</AssemblyName>
+    <RootNamespace>Benraz.Infrastructure.EF</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\net6.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\net6.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Benraz.Infrastructure.Common\Benraz.Infrastructure.Common.csproj" />
+  </ItemGroup>
+
+</Project>
+
+

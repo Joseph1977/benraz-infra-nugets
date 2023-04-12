@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Benraz.Infrastructure.Gateways</PackageId>
+    <Description>Internal and 3-rd party gateways implementations package.</Description>
+    <Company>Benraz</Company>
+    <ProjectGuid>6E96D39D-8C59-4F94-A1D2-4C1928934619</ProjectGuid>
+    <Authors>Benraz</Authors>
+    <License>MIT License</License>
+    <Copyright>Copyright ©</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <IsPackable>true</IsPackable>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2</FileVersion>
+    <AssemblyName>Benraz.Infrastructure.Gateways</AssemblyName>
+    <RootNamespace>Benraz.Infrastructure.Gateways</RootNamespace>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Benraz.Infrastructure.Common\Benraz.Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\Benraz.Infrastructure.Domain\Benraz.Infrastructure.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+</Project>
+

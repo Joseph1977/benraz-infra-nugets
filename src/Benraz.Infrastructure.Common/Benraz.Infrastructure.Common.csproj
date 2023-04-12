@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Benraz.Infrastructure.Common</PackageId>
+		<Description>Common infrastructure package. Contains services for common operations and base classes for all the applications.</Description>
+		<Company>Benraz</Company>
+		<ProjectGuid>AD69BF32-9DBA-4164-B82D-CCCA9C478560</ProjectGuid>
+		<Authors>Benraz</Authors>
+		<License>MIT License</License>
+		<Copyright>Copyright ©</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl></RepositoryUrl>
+		<PackageProjectUrl></PackageProjectUrl>
+		<PackageLicenseUrl></PackageLicenseUrl>
+		<PackageIconUrl></PackageIconUrl>
+		<IsPackable>true</IsPackable>
+		<Version>1.0.2</Version>
+		<AssemblyVersion>1.0.2</AssemblyVersion>
+		<FileVersion>1.0.2</FileVersion>
+		<AssemblyName>Benraz.Infrastructure.Common</AssemblyName>
+		<RootNamespace>Benraz.Infrastructure.Common</RootNamespace>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Twilio" Version="5.75.1" />
+	</ItemGroup>
+
+</Project>
+
+

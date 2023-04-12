@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>net6.0</TargetFramework>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <PackageId>Benraz.Infrastructure.Emails</PackageId>
+      <Description>Emails management package. Provides services for working with emails on different platforms.</Description>
+      <Company>Benraz</Company>
+      <ProjectGuid>1D24623F-52D6-40A7-98DB-5874DDD8C4BD</ProjectGuid>
+      <Authors>Benraz</Authors>
+      <License>MIT License</License>
+      <Copyright>Copyright ©</Copyright>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <RepositoryUrl></RepositoryUrl>
+      <PackageProjectUrl></PackageProjectUrl>
+      <PackageLicenseUrl></PackageLicenseUrl>
+      <PackageIconUrl></PackageIconUrl>
+      <IsPackable>true</IsPackable>
+      <Version>1.0.1</Version>
+      <AssemblyVersion>1.0.1</AssemblyVersion>
+      <FileVersion>1.0.1</FileVersion>
+      <AssemblyName>Benraz.Infrastructure.Emails</AssemblyName>
+      <RootNamespace>Benraz.Infrastructure.Emails</RootNamespace>
+      <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Benraz.Infrastructure.Gateways\Benraz.Infrastructure.Gateways.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
