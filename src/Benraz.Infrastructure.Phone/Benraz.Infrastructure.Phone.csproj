@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Benraz.Infrastructure.Phone</PackageId>
+		<Description>Phone management package. Provides services for working with phone on different platforms.</Description>
+		<Company>Benraz</Company>
+		<ProjectGuid>D356C569-87B6-4A33-BC46-8E24B891A0CB</ProjectGuid>
+		<Authors>Benraz</Authors>
+		<License>MIT License</License>
+		<Copyright>Copyright ©</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl></RepositoryUrl>
+		<PackageProjectUrl></PackageProjectUrl>
+		<PackageLicenseUrl></PackageLicenseUrl>
+		<PackageIconUrl></PackageIconUrl>
+		<IsPackable>true</IsPackable>
+		<Version>1.0.1</Version>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
+		<AssemblyName>Benraz.Infrastructure.Phone</AssemblyName>
+		<RootNamespace>Benraz.Infrastructure.Phone</RootNamespace>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Benraz.Infrastructure.Common\Benraz.Infrastructure.Common.csproj" />
+		<ProjectReference Include="..\Benraz.Infrastructure.Gateways\Benraz.Infrastructure.Gateways.csproj" />
+	</ItemGroup>
+
+</Project>
+
+
+

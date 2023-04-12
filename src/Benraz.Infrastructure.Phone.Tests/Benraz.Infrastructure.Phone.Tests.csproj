@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Description>Phone infrastructure package tests.</Description>
+		<Company>Benraz</Company>
+		<ProjectGuid>{05EB2889-A37F-43D7-88EE-2FD7BD28D8A1}</ProjectGuid>
+		<Authors>Benraz</Authors>
+		<Copyright>Copyright ©</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IsPackable>false</IsPackable>
+		<Version>1.0.1</Version>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
+		<AssemblyName>Benraz.Infrastructure.Phone.Tests</AssemblyName>
+		<RootNamespace>Benraz.Infrastructure.Phone.Tests</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentAssertions" Version="5.10.2" />
+		<PackageReference Include="Moq" Version="4.13.1" />
+		<PackageReference Include="nunit" Version="3.12.0" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Benraz.Infrastructure.Phone\Benraz.Infrastructure.Phone.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Phone.Designer.cs">
+		  <DependentUpon>Phone.resx</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Phone.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Phone.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Phone.resx">
+		  <LastGenOutput>Emails.Designer.cs</LastGenOutput>
+		  <Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Phone.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Phone.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>
+
+

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Description>Common infrastructure package tests.</Description>
+    <Company>Benraz</Company>
+    <ProjectGuid>CC291228-8D27-4E21-837C-B5B91A6A3F09</ProjectGuid>
+    <Authors>Benraz</Authors>
+    <Copyright>Copyright ©</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>false</IsPackable>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <AssemblyName>Benraz.Infrastructure.Common.Tests</AssemblyName>
+    <RootNamespace>Benraz.Infrastructure.Common.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.2" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Benraz.Infrastructure.Common\Benraz.Infrastructure.Common.csproj" />
+  </ItemGroup>
+
+</Project>
+
