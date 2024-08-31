@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <TargetFramework>net6.0</TargetFramework>
+      <TargetFramework>net8.0</TargetFramework>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <PackageId>Benraz.Infrastructure.Emails</PackageId>
       <Description>Emails management package. Provides services for working with emails on different platforms.</Description>
@@ -16,12 +16,18 @@
       <PackageLicenseUrl></PackageLicenseUrl>
       <PackageIconUrl></PackageIconUrl>
       <IsPackable>true</IsPackable>
-      <Version>1.0.2</Version>
-      <AssemblyVersion>1.0.2</AssemblyVersion>
-      <FileVersion>1.0.2</FileVersion>
+      <Version>1.0.3</Version>
+      <AssemblyVersion>1.0.3</AssemblyVersion>
+      <FileVersion>1.0.3</FileVersion>
       <AssemblyName>Benraz.Infrastructure.Emails</AssemblyName>
       <RootNamespace>Benraz.Infrastructure.Emails</RootNamespace>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+
+	  <PackageOutputPath>$(SolutionDir)BenrazNugetPackages</PackageOutputPath>
+	  <Title>Benraz.Infrastructure.Authorization</Title>
+
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

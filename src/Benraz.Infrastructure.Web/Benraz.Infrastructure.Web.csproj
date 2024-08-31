@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <TargetFramework>net6.0</TargetFramework>
+      <TargetFramework>net8.0</TargetFramework>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <PackageId>Benraz.Infrastructure.Web</PackageId>
       <Description>.NET Core web package. Contains features that could be used in ASP.NET Core projects.</Description>
@@ -16,24 +16,30 @@
       <PackageLicenseUrl></PackageLicenseUrl>
       <PackageIconUrl></PackageIconUrl>
       <IsPackable>true</IsPackable>
-      <Version>1.0.2</Version>
-      <AssemblyVersion>1.0.2</AssemblyVersion>
-      <FileVersion>1.0.2</FileVersion>
+      <Version>1.0.3</Version>
+      <AssemblyVersion>1.0.3</AssemblyVersion>
+      <FileVersion>1.0.3</FileVersion>
       <AssemblyName>Benraz.Infrastructure.Web</AssemblyName>
       <RootNamespace>Benraz.Infrastructure.Web</RootNamespace>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
+
+	    <PackageOutputPath>$(SolutionDir)BenrazNugetPackages</PackageOutputPath>
+	    <Title>Benraz.Infrastructure.Web</Title>
+
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net6.0\Benraz.Infrastructure.Web.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net8.0\Benraz.Infrastructure.Web.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\net6.0\Benraz.Infrastructure.Web.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net8.0\Benraz.Infrastructure.Web.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.7.3" />
   </ItemGroup>
 
   <ItemGroup>
