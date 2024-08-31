@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Benraz.Infrastructure.EF</PackageId>
     <Description>Entity Framework .NET Core package. Contains common services for data-access layer implementation using Entity Framework Core.</Description>
@@ -16,23 +16,29 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl></PackageIconUrl>
     <IsPackable>true</IsPackable>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2</FileVersion>
+    <Version>1.0.3</Version>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <FileVersion>1.0.23</FileVersion>
     <AssemblyName>Benraz.Infrastructure.EF</AssemblyName>
     <RootNamespace>Benraz.Infrastructure.EF</RootNamespace>
+
+	<PackageOutputPath>$(SolutionDir)BenrazNugetPackages</PackageOutputPath>
+	<Title>Benraz.Infrastructure.EF</Title>
+
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net6.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net8.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\net6.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net8.0\Benraz.Infrastructure.EF.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>

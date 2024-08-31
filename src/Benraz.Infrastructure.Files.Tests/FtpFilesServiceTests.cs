@@ -239,28 +239,28 @@ namespace Benraz.Infrastructure.Files.Tests
             {
                 if (!string.IsNullOrEmpty(ROOT_DIRECTORY))
                 {
-                    if (await client.DirectoryExistsAsync($"/{ROOT_DIRECTORY}",token))
-                        await client.DeleteDirectoryAsync($"/{ROOT_DIRECTORY}",token);
+                    if (await client.DirectoryExists($"/{ROOT_DIRECTORY}",token))
+                        await client.DeleteDirectory($"/{ROOT_DIRECTORY}",token);
                 }
                 else
                 {
-                    await client.DeleteDirectoryAsync($"/", FtpListOption.Recursive,token);
+                    await client.DeleteDirectory($"/", FtpListOption.Recursive,token);
                 }
             }
         }
 
-        private async Task<(FtpClient client, CancellationToken token)> GetFtpConnection()
+        private async Task<(AsyncFtpClient client, CancellationToken token)> GetFtpConnection()
         {
             var token = new CancellationToken();
-            FtpClient client = new FtpClient(new Uri(BASE_URL), USER_NAME, PASSWORD);
-            client.EncryptionMode = FtpEncryptionMode.Explicit;
-            client.ValidateAnyCertificate = true;
-            await client.ConnectAsync(token);
+            AsyncFtpClient client = new AsyncFtpClient(BASE_URL, USER_NAME, PASSWORD);
+            client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
+            client.Config.ValidateAnyCertificate = true;
+            await client.Connect(token);
             if (!string.IsNullOrEmpty(ROOT_DIRECTORY))
             {
-                if (!await client.DirectoryExistsAsync($"/{ROOT_DIRECTORY}", token))
-                    await client.CreateDirectoryAsync($"/{ROOT_DIRECTORY}", token);
-                await client.SetWorkingDirectoryAsync($"/{ROOT_DIRECTORY}", token);
+                if (!await client.DirectoryExists($"/{ROOT_DIRECTORY}", token))
+                    await client.CreateDirectory($"/{ROOT_DIRECTORY}", token);
+                await client.SetWorkingDirectory($"/{ROOT_DIRECTORY}", token);
             }
 
             return (client, token);

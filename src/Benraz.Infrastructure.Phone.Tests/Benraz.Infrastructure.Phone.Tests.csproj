@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Description>Phone infrastructure package tests.</Description>
 		<Company>Benraz</Company>
 		<ProjectGuid>{05EB2889-A37F-43D7-88EE-2FD7BD28D8A1}</ProjectGuid>
@@ -9,22 +9,22 @@
 		<Copyright>Copyright ©</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IsPackable>false</IsPackable>
-		<Version>1.0.1</Version>
-		<AssemblyVersion>1.0.1</AssemblyVersion>
-		<FileVersion>1.0.1</FileVersion>
+		<Version>1.0.3</Version>
+		<AssemblyVersion>1.0.3</AssemblyVersion>
+		<FileVersion>1.0.3</FileVersion>
 		<AssemblyName>Benraz.Infrastructure.Phone.Tests</AssemblyName>
 		<RootNamespace>Benraz.Infrastructure.Phone.Tests</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="5.10.2" />
-		<PackageReference Include="Moq" Version="4.13.1" />
-		<PackageReference Include="nunit" Version="3.12.0" />
-		<PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+		<PackageReference Include="FluentAssertions" Version="6.12.0" />
+		<PackageReference Include="Moq" Version="4.20.70" />
+		<PackageReference Include="NUnit" Version="4.2.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
 	</ItemGroup>
 
 	<ItemGroup>

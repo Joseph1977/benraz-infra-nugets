@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using Benraz.Infrastructure.Common.Validation;
+using NUnit.Framework;
 using System.ComponentModel.DataAnnotations;
 
 namespace Benraz.Infrastructure.Common.Tests
@@ -43,10 +43,7 @@ namespace Benraz.Infrastructure.Common.Tests
 
             var result = Validator.TryValidateObject(model, new ValidationContext(model, null, null), null, true);
 
-            Assert.AreEqual(result, isValid);
+            Assert.That(result, Is.EqualTo(isValid));
         }
     }
 }
-
-
-
