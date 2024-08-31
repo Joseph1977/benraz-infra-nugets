@@ -4,6 +4,5 @@
 
 /.vs
 /.vscode
-/publishNuGet2OrgWithAPIKey.bat
 nuget-orgApiKey.txt
 src/BenrazNugetPackages
