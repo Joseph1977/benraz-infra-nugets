@@ -3,7 +3,7 @@
 REM Set the version variable
 set pushVersion=1.0.3
 
-set api-key=*******API KEY***
+set api-key=*********API KEY*******************
 
 @echo ----------------------------------------
 @echo Benraz.Infrastructure.Authorization version: %pushVersion%
@@ -43,7 +43,7 @@ dotnet nuget push .\src\BenrazNugetPackages\Benraz.Infrastructure.EF.%pushVersio
 @echo ----------------------------------------
 @echo Benraz.Infrastructure.Gateways version: %pushVersion%
 @echo ----------------------------------------
-dotnet nuget push .\src\BenrazNugetPackages\bin\Release\Benraz.Infrastructure.Gateways.%pushVersion%.nupkg --api-key %api-key% --source https://api.nuget.org/v3/index.json
+dotnet nuget push .\src\BenrazNugetPackages\Benraz.Infrastructure.Gateways.%pushVersion%.nupkg --api-key %api-key% --source https://api.nuget.org/v3/index.json
 
 @echo ----------------------------------------
 @echo Benraz.Infrastructure.Web version: %pushVersion%
