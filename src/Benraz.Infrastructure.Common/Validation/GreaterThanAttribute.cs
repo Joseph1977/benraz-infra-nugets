@@ -27,14 +27,19 @@ namespace Benraz.Infrastructure.Common.Validation
         /// <returns>Validation result.</returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            ErrorMessage = $"{validationContext.DisplayName} not later than {_comparisonProperty}.";
-
-            if (value.GetType() == typeof(IComparable))
+            // Check if value is null
+            if (value == null)
             {
-                throw new ArgumentException("Value has not implemented IComparable interface.");
+                return ValidationResult.Success; // Or return an error based on requirements
             }
 
-            var currentValue = (IComparable)value;
+            ErrorMessage = $"{validationContext.DisplayName} must be greater than {_comparisonProperty}.";
+
+            // Check if value implements IComparable
+            if (!(value is IComparable currentValue))
+            {
+                throw new ArgumentException("Value must implement IComparable interface.");
+            }
 
             var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
             if (property == null)
@@ -43,18 +48,27 @@ namespace Benraz.Infrastructure.Common.Validation
             }
 
             var comparisonValue = property.GetValue(validationContext.ObjectInstance);
-
-            if (comparisonValue.GetType() == typeof(IComparable))
+            
+            // Check if comparisonValue is null
+            if (comparisonValue == null)
             {
-                throw new ArgumentException("Comparison property has not implemented IComparable interface.");
+                return ValidationResult.Success; // Or return an error based on requirements
             }
 
-            if (!ReferenceEquals(value.GetType(), comparisonValue.GetType()))
+            // Check if comparisonValue implements IComparable
+            if (!(comparisonValue is IComparable comparableValue))
+            {
+                throw new ArgumentException("Comparison property must implement IComparable interface.");
+            }
+
+            // Ensure both values are of the same type
+            if (currentValue.GetType() != comparableValue.GetType())
             {
                 throw new ArgumentException("The properties types must be the same.");
             }
 
-            if (currentValue.CompareTo((IComparable)comparisonValue) <= 0)
+            // Perform the comparison
+            if (currentValue.CompareTo(comparableValue) <= 0)
             {
                 return new ValidationResult(ErrorMessage);
             }

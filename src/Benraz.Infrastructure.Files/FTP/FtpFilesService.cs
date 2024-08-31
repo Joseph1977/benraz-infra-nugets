@@ -37,11 +37,11 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                if (await client.DirectoryExistsAsync(path, token))
+                if (await client.DirectoryExists(path, token))
                 {
                     // get a list of files and directories in the path folder
-                    var remoteFiles = (await client.GetListingAsync(path, token))?
-                        .Where(x => x.Type == FtpFileSystemObjectType.File).ToArray();
+                    var remoteFiles = (await client.GetListing(path, token))?
+                        .Where(x => x.Type == FtpObjectType.File).ToArray();
                     files = await ToFilesAsync(remoteFiles, fileProperties, client, token);
                 }
             }
@@ -68,10 +68,10 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                if (await client.DirectoryExistsAsync(directoryPath, token))
+                if (await client.DirectoryExists(directoryPath, token))
                 {
-                    var remoteFile = (await client.GetListingAsync(directoryPath, token))?
-                        .Where(x => x.Type == FtpFileSystemObjectType.File && x.Name == fileName).SingleOrDefault();
+                    var remoteFile = (await client.GetListing(directoryPath, token))?
+                        .Where(x => x.Type == FtpObjectType.File && x.Name == fileName).SingleOrDefault();
                     if (remoteFile != null)
                         file = await ToFileAsync(remoteFile, fileProperties, client, token);
                 }
@@ -95,8 +95,14 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                client.RetryAttempts = 3;
-                await client.UploadAsync(file.Content, $"{file.Name}", FtpRemoteExists.Overwrite, true, null, token);
+                client.Config.RetryAttempts = 3;
+                FtpStatus uploadStatus = await client.UploadBytes(file.Content, file.Name,
+                                    FtpRemoteExists.Overwrite, true, token: token);
+
+                if (uploadStatus != FtpStatus.Success)
+                {
+                    throw new Exception($"Failed to upload file: {file.Name}");
+                }
             }
             file.Uri = GetFileUri(file.Name);
 
@@ -124,18 +130,18 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                var isFileExist = await client.FileExistsAsync(file.Name, token);
+                var isFileExist = await client.FileExists(file.Name, token);
                 if (!isFileExist)
                 {
                     throw new InvalidOperationException("File is not persistent.");
                 }
 
                 var directoryPath = GetDirectoryPathFromFileNamePath(newFileName);
-                if (!await client.DirectoryExistsAsync(directoryPath, token))
+                if (!await client.DirectoryExists(directoryPath, token))
                 {
-                    await client.CreateDirectoryAsync(directoryPath, token);
+                    await client.CreateDirectory(directoryPath, token);
                 }
-                var status = await client.MoveFileAsync(file.Name, newFileName, FtpRemoteExists.Overwrite, token);
+                var status = await client.MoveFile(file.Name, newFileName, FtpRemoteExists.Overwrite, token);
                 if (status)
                 {
                     file.Name = newFileName;
@@ -161,9 +167,9 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                if (await client.FileExistsAsync(fileName, token))
+                if (await client.FileExists(fileName, token))
                 {
-                    await client.DeleteFileAsync(fileName, token);
+                    await client.DeleteFile(fileName, token);
                 }
             }
         }
@@ -178,13 +184,13 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                if (await client.DirectoryExistsAsync(path, token))
+                if (await client.DirectoryExists(path, token))
                 {
-                    foreach (FtpListItem item in await client.GetListingAsync(path, token))
+                    foreach (FtpListItem item in await client.GetListing(path, token))
                     {
-                        if (item.Type == FtpFileSystemObjectType.File)
+                        if (item.Type == FtpObjectType.File)
                         {
-                            await client.DeleteFileAsync(item.FullName, token);
+                            await client.DeleteFile(item.FullName, token);
                         }
                     }
                 }
@@ -206,9 +212,9 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                if (await client.DirectoryExistsAsync(path, token))
+                if (await client.DirectoryExists(path, token))
                 {
-                    await client.DeleteDirectoryAsync(path, token);
+                    await client.DeleteDirectory(path, token);
                 }
             }
         }
@@ -253,7 +259,7 @@ namespace Benraz.Infrastructure.Files.FTP
             {
                 var sourceFilePath = Path.Combine(sourcePath, fileName);
                 var destinationFilePath = Path.Combine(destinationPath, fileName);
-                status = await client.MoveFileAsync(sourceFilePath, destinationFilePath, FtpRemoteExists.Overwrite, token);
+                status = await client.MoveFile(sourceFilePath, destinationFilePath, FtpRemoteExists.Overwrite, token);
             }
 
             return status;
@@ -282,7 +288,7 @@ namespace Benraz.Infrastructure.Files.FTP
             var (client, token) = await GetFtpConnection();
             using (client)
             {
-                status = await client.CreateDirectoryAsync(folderNamePath, true, token);
+                status = await client.CreateDirectory(folderNamePath, true, token);
             }
 
             return status;
@@ -300,26 +306,28 @@ namespace Benraz.Infrastructure.Files.FTP
                 $"in the {nameof(FtpFilesService)} service.");
         }
 
-        private async Task<(FtpClient client, CancellationToken token)> GetFtpConnection()
+        private async Task<(AsyncFtpClient client, CancellationToken token)> GetFtpConnection()
         {
             var token = new CancellationToken();
-            FtpClient client = new FtpClient(new Uri(_settings.BaseUrl), _settings.UserName, _settings.Password);
-            client.EncryptionMode = FtpEncryptionMode.Explicit;
-            client.ValidateAnyCertificate = true;
-            client.SocketKeepAlive = true;
-            await client.ConnectAsync(token);
+            //FtpClient client = new FtpClient(new Uri(_settings.BaseUrl), _settings.UserName, _settings.Password);
+            AsyncFtpClient client = new AsyncFtpClient(_settings.BaseUrl, _settings.UserName, _settings.Password);
+
+            client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
+            client.Config.ValidateAnyCertificate = true;
+            client.Config.SocketKeepAlive = true;
+            await client.Connect(token);
             if (!string.IsNullOrEmpty(_settings.RootDirectory))
             {
-                if (!await client.DirectoryExistsAsync($"/{_settings.RootDirectory}", token))
-                    await client.CreateDirectoryAsync($"/{_settings.RootDirectory}", token);
-                await client.SetWorkingDirectoryAsync($"/{_settings.RootDirectory}", token);
+                if (!await client.DirectoryExists($"/{_settings.RootDirectory}", token))
+                    await client.CreateDirectory($"/{_settings.RootDirectory}", token);
+                await client.SetWorkingDirectory($"/{_settings.RootDirectory}", token);
             }
 
             return (client, token);
         }
 
         private async Task<File[]> ToFilesAsync(FtpListItem[] remoteFiles, FileProperties fileProperties,
-            FtpClient ftpClient, CancellationToken token)
+            AsyncFtpClient ftpClient, CancellationToken token)
         {
             var files = new List<File>();
             foreach (var remoteFile in remoteFiles)
@@ -332,7 +340,7 @@ namespace Benraz.Infrastructure.Files.FTP
         }
 
         private async Task<File> ToFileAsync(FtpListItem remoteFile, FileProperties fileProperties,
-            FtpClient ftpClient, CancellationToken token)
+            AsyncFtpClient ftpClient, CancellationToken token)
         {
             var file = new File
             {
@@ -344,7 +352,7 @@ namespace Benraz.Infrastructure.Files.FTP
             };
             if ((fileProperties & FileProperties.Content) == FileProperties.Content)
             {
-                file.Content = await ftpClient.DownloadAsync(remoteFile.FullName, token);
+                file.Content = await ftpClient.DownloadBytes(remoteFile.FullName, token: token);
             }
 
             return file;
