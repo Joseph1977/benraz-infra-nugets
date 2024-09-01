@@ -8,7 +8,7 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices.Messages
     /// <summary>
     /// Email request.
     /// </summary>
-    public class EmailRequest : BenrazServicesRequestBaseUserPassword
+    public class EmailV2Request : BenrazServicesRequestBase
 	{
         /// <summary>
         /// Acount identifier.
@@ -45,7 +45,7 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices.Messages
         /// <summary>
         /// Creates request.
         /// </summary>
-        public EmailRequest()
+        public EmailV2Request()
         {
         }
 
