@@ -12,6 +12,23 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices.Messages
         /// </summary>
         public string AccessToken { get; set; }
     }
+	/// <summary>
+	/// Benraz services base request.
+	/// </summary>
+	public abstract class BenrazServicesRequestBaseUserPassword
+	{
+		/// <summary>
+		/// Username.
+		/// </summary>
+		[JsonIgnore]
+		public string Username { get; set; }
+
+		/// <summary>
+		/// Password.
+		/// </summary>
+		[JsonIgnore]
+		public string Password { get; set; }
+	}
 }
 
 
