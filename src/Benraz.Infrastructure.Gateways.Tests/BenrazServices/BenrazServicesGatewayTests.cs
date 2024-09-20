@@ -32,7 +32,7 @@ namespace Benraz.Infrastructure.Gateways.Tests.BenrazServices
         [Test]
         public async Task SendAsync_EmailRequest_SendsEmail()
         {
-            var request = new EmailV2Request
+            var request = new EmailRequest
 			{
                 AccessToken = ACCESS_TOKEN,
                 BasicInfo = new EmailBasicInfo
@@ -63,7 +63,7 @@ namespace Benraz.Infrastructure.Gateways.Tests.BenrazServices
         [Test]
         public async Task SendAsync_EmailRequestOnlyTos_SendsEmail()
         {
-            var request = new EmailV2Request
+            var request = new EmailRequest
             {
                 AccessToken = ACCESS_TOKEN,
                 BasicInfo = new EmailBasicInfo

@@ -8,8 +8,8 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices.Messages
     /// <summary>
     /// Email request.
     /// </summary>
-    public class EmailRequest : BenrazServicesRequestBaseUserPassword
-	{
+    public class EmailRequest : BenrazServicesRequestBase
+    {
         /// <summary>
         /// Acount identifier.
         /// </summary>

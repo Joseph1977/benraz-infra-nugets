@@ -13,7 +13,7 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices
         /// </summary>
         /// <param name="request">Request.</param>
         /// <returns>Response.</returns>
-        Task<EmailResponse> SendAsync(EmailV2Request request);
+        Task<EmailResponse> SendAsync(EmailRequest request);
 
         /// <summary>
         /// Sends Phone request.

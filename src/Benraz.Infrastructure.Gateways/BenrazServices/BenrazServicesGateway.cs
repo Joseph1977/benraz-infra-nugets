@@ -34,7 +34,7 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices
         /// </summary>
         /// <param name="request">Request.</param>
         /// <returns>Response.</returns>
-        public async Task<EmailResponse> SendAsync(EmailV2Request request)
+        public async Task<EmailResponse> SendAsync(EmailRequest request)
         {
             if (request == null)
             {
@@ -92,23 +92,9 @@ namespace Benraz.Infrastructure.Gateways.BenrazServices
         private HttpClient CreateHttpClient(BenrazServicesRequestBase request)
         {
             return CreateHttpClient(request.AccessToken);
-		}
-		private HttpClient CreateHttpClient(BenrazServicesRequestBaseUserPassword request)
-		{
-			var httpClient = CreateHttpClient();
+        }
 
-			if (!string.IsNullOrEmpty(request.Username) && !string.IsNullOrEmpty(request.Password))
-			{
-				var userPasswordPair = $"{request.Username}:{request.Password}";
-				var basicHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(userPasswordPair));
-				httpClient.DefaultRequestHeaders.Authorization =
-					new AuthenticationHeaderValue("Basic", basicHeaderValue);
-			}
-
-			return httpClient;
-		}
-
-		private string TrimEndSlash(string url)
+        private string TrimEndSlash(string url)
         {
             return url.TrimEnd(new[] { '/' });
         }
