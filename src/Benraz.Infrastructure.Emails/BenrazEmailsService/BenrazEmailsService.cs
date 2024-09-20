@@ -123,10 +123,10 @@ namespace Benraz.Infrastructure.Emails.BenrazEmailsService
             }
         }
 
-        private EmailV2Request CreateRequest(MailMessage mailMessage)
+        private EmailRequest CreateRequest(MailMessage mailMessage)
         {
             var toAddresses = GetAddressStrings(mailMessage.To);
-            var request = new EmailV2Request
+            var request = new EmailRequest
             {
                 AccessToken = _emailSettings.AccessToken,
                 BasicInfo = new EmailBasicInfo
@@ -155,5 +155,3 @@ namespace Benraz.Infrastructure.Emails.BenrazEmailsService
         }
     }
 }
-
-
