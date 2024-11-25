@@ -113,7 +113,7 @@ public class GcpBucketFilesService : IFilesService
     }
 
     /// <summary>
-    /// Creates BLOB in container and returns file with URI updated.
+    /// Creates file in bucket and returns file with URI updated.
     /// </summary>
     /// <param name="file">File.</param>
     /// <returns>File.</returns>
