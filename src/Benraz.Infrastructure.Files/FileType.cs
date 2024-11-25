@@ -18,7 +18,12 @@ namespace Benraz.Infrastructure.Files
         /// <summary>
         /// FTP.
         /// </summary>
-        Ftp = 3
+        Ftp = 3,
+        
+        /// <summary>
+        /// Google Cloud Platform Bucket.
+        /// </summary>
+        GcpBucket = 4
     }
 }
 
