@@ -106,7 +106,7 @@ public class GcpBucketFilesService : IFilesService
                 file.Content = memoryStream.ToArray();
             }
 
-            return null;
+            return file;
         }
         catch (GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
         {
