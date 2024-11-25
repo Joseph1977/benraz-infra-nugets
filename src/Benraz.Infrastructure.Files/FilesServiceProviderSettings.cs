@@ -1,5 +1,6 @@
 using Benraz.Infrastructure.Files.Azure;
 using Benraz.Infrastructure.Files.FTP;
+using Benraz.Infrastructure.Files.GCP;
 using Benraz.Infrastructure.Files.Local;
 
 namespace Benraz.Infrastructure.Files
@@ -28,6 +29,11 @@ namespace Benraz.Infrastructure.Files
         /// FTP files service settings.
         /// </summary>
         public FtpFilesServiceSettings Ftp { get; set; }
+        
+        /// <summary>
+        /// Google Cloud Platform Bucket files service settings.
+        /// </summary>
+        public GcpBucketFilesServiceSettings GcpBucket { get; set; }
     }
 }
 

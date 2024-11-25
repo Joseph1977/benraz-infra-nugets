@@ -3,6 +3,7 @@ using Benraz.Infrastructure.Files.Azure;
 using Benraz.Infrastructure.Files.FTP;
 using Benraz.Infrastructure.Files.Local;
 using System;
+using Benraz.Infrastructure.Files.GCP;
 
 namespace Benraz.Infrastructure.Files
 {
@@ -36,6 +37,8 @@ namespace Benraz.Infrastructure.Files
                     return new AzureBlobFilesService(Options.Create(_settings.AzureBlob));
                 case FileType.Ftp:
                     return new FtpFilesService(Options.Create(_settings.Ftp));
+                case FileType.GcpBucket:
+                    return new GcpBucketFilesService(Options.Create(_settings.GcpBucket));
                 default:
                     throw new NotSupportedException("Not supported storage type.");
             }

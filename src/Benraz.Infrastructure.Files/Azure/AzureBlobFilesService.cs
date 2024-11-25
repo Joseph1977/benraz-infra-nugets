@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Benraz.Infrastructure.Files.Azure
@@ -268,13 +269,14 @@ namespace Benraz.Infrastructure.Files.Azure
         /// </summary>
         /// <param name="fileName">File name.</param>
         /// <param name="expiresInHours">Expires in hours.</param>
+        /// <param name="permission">File permission.</param>
         /// <returns>Signed file URI.</returns>
-        public string GetSignedUri(string fileName, int expiresInHours = 1)
+        public string GetSignedUri(string fileName, int expiresInHours = 1, CloudFilePermission permission = CloudFilePermission.Read)
         {
             var blobServiceClient = this.GetBlobServiceClient();
             var containerClient = blobServiceClient.GetBlobContainerClient(_settings.BlobContainer);
             var blobClient = containerClient.GetBlobClient(this.GetFullBlobPath(this.GetBlobName(fileName)));
-            var sasUri = blobClient.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddHours(expiresInHours));
+            var sasUri = blobClient.GenerateSasUri(CloudFilePermissionService.GetPermission(permission, FileType.AzureBlob), DateTimeOffset.UtcNow.AddHours(expiresInHours));
 
             return sasUri.ToString();
         }
