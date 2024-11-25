@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Benraz.Infrastructure.Gateways.GCP;
 using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.Control.V2;
@@ -33,7 +34,9 @@ public class GcpBucketFilesService : IFilesService
     {
         _settings = settings.Value;
 
-        _credential = string.IsNullOrEmpty(_settings.GcpApplicationCredentials) ? GoogleCredential.GetApplicationDefault() : GoogleCredential.FromJson(_settings.GcpApplicationCredentials);
+        _credential = string.IsNullOrEmpty(_settings.GcpApplicationCredentials) ? 
+            GoogleCredentialsLoader.GetGoogleCredentialFromEnv("GcpApplicationCredentials") : 
+            GoogleCredential.FromJson(_settings.GcpApplicationCredentials);
         _storageClient = StorageClient.Create(_credential);
         _storageControl = StorageControlClient.Create();
     }
@@ -103,7 +106,7 @@ public class GcpBucketFilesService : IFilesService
                 file.Content = memoryStream.ToArray();
             }
 
-            return file;
+            return null;
         }
         catch (GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -295,15 +298,16 @@ public class GcpBucketFilesService : IFilesService
     /// </summary>
     /// <param name="fileName">File name.</param>
     /// <param name="expiresInHours">Expires in hours.</param>
+    /// <param name="permission">File permission.</param>
     /// <returns>Signed file URI.</returns>
-    public string GetSignedUri(string fileName, int expiresInHours = 1)
+    public string GetSignedUri(string fileName, int expiresInHours = 1, CloudFilePermission permission = CloudFilePermission.Read)
     {
         var urlSigner = UrlSigner.FromCredential(_credential);
         var url = urlSigner.Sign(
             bucket: _settings.BucketName,
             objectName: fileName,
             duration: TimeSpan.FromHours(expiresInHours),
-            httpMethod: HttpMethod.Get
+            httpMethod: CloudFilePermissionService.GetPermission(permission, FileType.GcpBucket)
         );
 
         return url;

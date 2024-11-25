@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Benraz.Infrastructure.Files
@@ -88,8 +89,9 @@ namespace Benraz.Infrastructure.Files
         /// </summary>
         /// <param name="fileName">File name.</param>
         /// <param name="expiresInHours">Expires in hours.</param>
+        /// <param name="permission">File permission.</param>
         /// <returns>Signed file URI.</returns>
-        string GetSignedUri(string fileName, int expiresInHours = 1);
+        string GetSignedUri(string fileName, int expiresInHours = 1, CloudFilePermission permission = CloudFilePermission.Read);
     }
 }
 
