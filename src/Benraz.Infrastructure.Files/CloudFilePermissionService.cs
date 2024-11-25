@@ -25,7 +25,7 @@ public class CloudFilePermissionService
                     CloudFilePermission.Write => BlobSasPermissions.Write,
                     CloudFilePermission.Delete => BlobSasPermissions.Delete,
                     CloudFilePermission.List => BlobSasPermissions.List,
-                    _ => null
+                    _ => BlobSasPermissions.Read
                 };
             case FileType.GcpBucket:
                 return permission switch
@@ -34,7 +34,7 @@ public class CloudFilePermissionService
                     CloudFilePermission.Write => HttpMethod.Post,
                     CloudFilePermission.Delete => HttpMethod.Delete,
                     CloudFilePermission.List => HttpMethod.Get,
-                    _ => null
+                    _ => HttpMethod.Get
                 };
         }
         return null;
