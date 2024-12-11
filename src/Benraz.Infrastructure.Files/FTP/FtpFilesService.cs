@@ -299,8 +299,9 @@ namespace Benraz.Infrastructure.Files.FTP
         /// </summary>
         /// <param name="fileName">File name.</param>
         /// <param name="expiresInHours">Expires in hours.</param>
+        /// <param name="permission">File permission.</param>
         /// <returns>Signed file URI.</returns>
-        public string GetSignedUri(string fileName, int expiresInHours = 1)
+        public string GetSignedUri(string fileName, int expiresInHours = 1, CloudFilePermission permission = CloudFilePermission.Read)
         {
             throw new NotSupportedException($"{nameof(this.GetSignedUri)} method is not supported " +
                 $"in the {nameof(FtpFilesService)} service.");
