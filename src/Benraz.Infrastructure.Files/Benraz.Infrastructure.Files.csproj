@@ -16,9 +16,9 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl></PackageIconUrl>
     <IsPackable>true</IsPackable>
-    <Version>1.0.4</Version>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
-    <FileVersion>1.0.4</FileVersion>
+    <Version>1.0.5</Version>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
+    <FileVersion>1.0.5</FileVersion>
     <AssemblyName>Benraz.Infrastructure.Files</AssemblyName>
     <RootNamespace>Benraz.Infrastructure.Files</RootNamespace>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
@@ -36,6 +36,7 @@
     <PackageReference Include="Google.Cloud.Storage.Control.V2" Version="1.1.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="PDFsharp" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
