@@ -27,47 +27,111 @@ namespace Benraz.Infrastructure.Common.CommonUtilities
         /// Get connect string.
         /// </summary>
         /// <param name="configuration">Configuration.</param>
+        /// <param name="isForSqlServer">Is for sql server.</param>
         /// <returns>String</returns>
-        public static string GetConnectString(IConfiguration configuration)
+        public static string GetConnectString(IConfiguration configuration, bool isForSqlServer = false)
         {
             var connectionString = configuration.GetValue<string>("ConnectionStrings");
 
             if (configuration.GetValue<bool>("InjectDBCredentialFromEnvironment"))
             {
-                connectionString +=
-                     $";Username={configuration.GetValue<string>("AspNetCoreDbUserName")};Password='{configuration.GetValue<string>("AspNetCoreDbPassword")}'";
+                if (isForSqlServer)
+                {
+                    connectionString +=
+                        $";User Id={configuration.GetValue<string>("AspNetCoreDbUserName")};Password='{configuration.GetValue<string>("AspNetCoreDbPassword")}'";
+                }
+                else
+                {
+                    connectionString +=
+                        $";Username={configuration.GetValue<string>("AspNetCoreDbUserName")};Password='{configuration.GetValue<string>("AspNetCoreDbPassword")}'";
+                }
             }
             return connectionString;
         }
 
         /// <summary>
-        /// Load environment variable by json
+        /// Load environment variable from json (Use only for local development and test project)
         /// </summary>
         /// <param name="path">Path of json file.</param>
-        /// <param name="isLoadFromRoot">Environment variable load from root of json.</param>
-        /// <param name="profileName">json profile name if want to load from launch setting.</param>
-        public static void LoadEnvironmentVariableByJson(string path, bool isLoadFromRoot = false, string profileName = "IIS Express")
+        /// <param name="environmentVariablesJsonPath">Environment variables json path like profiles['IIS Express'].environmentVariables.</param>
+        public static void LoadEnvironmentVariablesFromJson(string path, string environmentVariablesJsonPath = "")
         {
-            if (File.Exists(path))
+            if (!File.Exists(path)) return;
+
+            string jsonContent;
+            try
             {
-                var jsonContent = File.ReadAllText(path);
-                var jsonReader = new JsonTextReader(new StringReader(jsonContent));
-                var jsonObject = JObject.Load(jsonReader);
+                jsonContent = File.ReadAllText(path);
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                return;
+            }
 
-                JToken environmentVariables;
-                if (isLoadFromRoot)
-                    environmentVariables = jsonObject.Root;
-                else
-                    environmentVariables = jsonObject["profiles"]?[profileName]?["environmentVariables"];
+            JObject jsonObject;
+            try
+            {
+                jsonObject = JObject.Parse(jsonContent);
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Error parsing JSON: {ex.Message}");
+                return;
+            }
 
-                if (environmentVariables != null)
+            // Use a dynamic path to extract environment variables from the JSON object
+            var environmentVariables = string.IsNullOrWhiteSpace(environmentVariablesJsonPath) ? jsonObject.Root : jsonObject.SelectToken(environmentVariablesJsonPath);
+
+            if (environmentVariables == null)
+            {
+                Console.WriteLine("No environment variables found at the specified path.");
+                return;
+            }
+
+            foreach (JProperty variable in environmentVariables)
+            {
+                try
                 {
-                    foreach (JProperty variable in environmentVariables)
-                    {
-                        Environment.SetEnvironmentVariable(variable.Name, variable.Value.ToString());
-                    }
+                    Environment.SetEnvironmentVariable(variable.Name, variable.Value.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error setting environment variable {variable.Name}: {ex.Message}");
                 }
             }
+        }
+
+        /// <summary>
+        /// Datetime milli seconds value rounding. (Use in test project with postgres)
+        /// </summary>
+        /// <typeparam name="TEntity">TEntity</typeparam>
+        /// <param name="entity">Entity</param>
+        /// <returns>Entity</returns>
+        public static TEntity RoundToMilliseconds<TEntity>(TEntity entity)
+        {
+            // Get the type of the entity
+            var entityType = typeof(TEntity);
+
+            // Check if the 'CreateTimeUtc' property exists and is of type DateTime
+            var createTimeUtcProperty = entityType.GetProperty("CreateTimeUtc");
+            if (createTimeUtcProperty != null && createTimeUtcProperty.PropertyType == typeof(DateTime))
+            {
+                var createTimeUtcValue = (DateTime)createTimeUtcProperty.GetValue(entity);
+                // Round to milliseconds
+                createTimeUtcProperty.SetValue(entity, new DateTime((createTimeUtcValue.Ticks / TimeSpan.TicksPerMillisecond) * TimeSpan.TicksPerMillisecond));
+            }
+
+            // Check if the 'UpdateTimeUtc' property exists and is of type DateTime
+            var updateTimeUtcProperty = entityType.GetProperty("UpdateTimeUtc");
+            if (updateTimeUtcProperty != null && updateTimeUtcProperty.PropertyType == typeof(DateTime))
+            {
+                var updateTimeUtcValue = (DateTime)updateTimeUtcProperty.GetValue(entity);
+                // Round to milliseconds
+                updateTimeUtcProperty.SetValue(entity, new DateTime((updateTimeUtcValue.Ticks / TimeSpan.TicksPerMillisecond) * TimeSpan.TicksPerMillisecond));
+            }
+
+            return entity;
         }
     }
 }
