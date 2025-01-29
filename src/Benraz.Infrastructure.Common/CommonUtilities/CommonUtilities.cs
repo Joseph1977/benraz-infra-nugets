@@ -19,8 +19,7 @@ namespace Benraz.Infrastructure.Common.CommonUtilities
         /// <returns>True/False</returns>
         public static bool IsNeedToConnectToDB(string connectionString, bool skipDbConnectIfNoConnectionString)
         {
-            if (skipDbConnectIfNoConnectionString && string.IsNullOrWhiteSpace(connectionString)) return false;
-            return true;
+            return !(skipDbConnectIfNoConnectionString && string.IsNullOrWhiteSpace(connectionString));
         }
 
         /// <summary>
