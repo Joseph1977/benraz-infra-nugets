@@ -6,7 +6,7 @@
     public enum ClaimFilterType
     {
         /// <summary>
-        /// Exact (matches claims that are an exact (case-insensitive)).
+        /// Exact (matches claims that are an exact match (case-insensitive)).
         /// </summary>
         Exact = 1,
 
