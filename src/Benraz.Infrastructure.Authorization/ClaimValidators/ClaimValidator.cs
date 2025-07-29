@@ -14,7 +14,7 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
     public class ClaimValidator
     {
         /// <summary>  
-        /// Validate claims (second level claim checker).  
+        /// Check if the desired claims are included in the JWT based on the specified MatchType and FilterType criteria.  
         /// </summary>  
         /// <param name="jwtToken">JWT token.</param>  
         /// <param name="desiredClaims">Desired claims.</param>  
