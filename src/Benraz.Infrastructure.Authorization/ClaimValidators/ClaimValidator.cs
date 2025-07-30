@@ -92,9 +92,8 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
             // Check audience
             if (validAudiences != null)
             {
-                var audClaims = jwt.Audiences.Select(a => a.ToUpperInvariant());
-                var expectedAudiences = validAudiences.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                                        .Select(a => a.ToUpperInvariant()).ToList();
+                var audClaims = jwt.Audiences;
+                var expectedAudiences = validAudiences.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 if (!audClaims.Any(a => expectedAudiences.Any(ea => string.Equals(a, ea, StringComparison.OrdinalIgnoreCase))))
                     throw new SecurityTokenInvalidAudienceException("JWT token audience is invalid.");
