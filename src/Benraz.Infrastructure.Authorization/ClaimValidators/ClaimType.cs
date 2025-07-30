@@ -16,7 +16,7 @@
         Role = 2,
 
         /// <summary>
-        /// Both
+        /// Both.
         /// </summary>
         Both = 3,
     }

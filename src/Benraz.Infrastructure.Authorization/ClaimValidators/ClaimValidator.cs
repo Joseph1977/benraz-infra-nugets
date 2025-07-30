@@ -20,24 +20,14 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
         /// <param name="desiredClaims">Desired claims.</param>  
         /// <param name="matchType">Match type.</param>  
         /// <param name="filterType">Filter Type.</param>  
-        /// <param name="isValidateTokenExpiration">Is validate token expiration.</param>  
-        /// <param name="validAudiences">Valid audiences.</param>  
         /// <returns></returns>
         public bool SearchClaims(string jwtToken,
                     IEnumerable<string> desiredClaims,
                     ClaimMatchType matchType,
-                    ClaimFilterType filterType,
-                    bool isValidateTokenExpiration = false,
-                    string validAudiences = null)
+                    ClaimFilterType filterType
+                    )
         {
-            try
-            {
-                return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Claim, isValidateTokenExpiration, validAudiences);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Claim);
         }
 
         /// <summary>
@@ -47,24 +37,13 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
         /// <param name="desiredClaims">Desired claims.</param>  
         /// <param name="matchType">Match type.</param>  
         /// <param name="filterType">Filter Type.</param>  
-        /// <param name="isValidateTokenExpiration">Is validate token expiration.</param>  
-        /// <param name="validAudiences">Valid audiences.</param>  
         /// <returns></returns>
         public bool SearchRoles(string jwtToken,
                     IEnumerable<string> desiredClaims,
                     ClaimMatchType matchType,
-                    ClaimFilterType filterType,
-                    bool isValidateTokenExpiration = false,
-                    string validAudiences = null)
+                    ClaimFilterType filterType)
         {
-            try
-            {
-                return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Role, isValidateTokenExpiration, validAudiences);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Role);
         }
 
         /// <summary>
@@ -82,7 +61,7 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
                     IEnumerable<string> desiredClaims,
                     ClaimMatchType matchType,
                     ClaimFilterType filterType,
-                    ClaimType claimType,
+                    ClaimType claimType = ClaimType.Claim,
                     bool isValidateTokenExpiration = false,
                     string validAudiences = null)
         {
@@ -101,7 +80,7 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
             // Check expiration
             if (isValidateTokenExpiration)
             {
-                var expClaim = jwt.Claims.FirstOrDefault(c => c.Type == CommonClaimTypes.EXPIRATION)?.Value;
+                var expClaim = jwt.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Exp)?.Value;
                 if (!long.TryParse(expClaim, out var expUnix))
                     throw new SecurityTokenException("Token 'exp' claim is missing or invalid.");
 
@@ -117,7 +96,7 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
                 var expectedAudiences = validAudiences.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                                         .Select(a => a.ToUpperInvariant()).ToList();
 
-                if (!audClaims.Any(a => expectedAudiences.Contains(a)))
+                if (!audClaims.Any(a => expectedAudiences.Any(ea => string.Equals(a, ea, StringComparison.OrdinalIgnoreCase))))
                     throw new SecurityTokenInvalidAudienceException("JWT token audience is invalid.");
             }
 

@@ -24,11 +24,6 @@ namespace Benraz.Infrastructure.Common.AccessControl
         /// Role.
         /// </summary>
         public const string ROLE = "role";
-
-        /// <summary>
-        /// Role.
-        /// </summary>
-        public const string EXPIRATION = "exp";
     }
 }
 
