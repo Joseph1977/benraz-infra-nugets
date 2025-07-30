@@ -19,6 +19,16 @@ namespace Benraz.Infrastructure.Common.AccessControl
         /// Access token.
         /// </summary>
         public const string ACCESS_TOKEN = "access_token";
+
+        /// <summary>
+        /// Role.
+        /// </summary>
+        public const string ROLE = "role";
+
+        /// <summary>
+        /// Role.
+        /// </summary>
+        public const string EXPIRATION = "exp";
     }
 }
 

@@ -13,21 +13,76 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
     /// </summary>  
     public class ClaimValidator
     {
-        /// <summary>  
-        /// Check if the desired claims are included in the JWT based on the specified MatchType and FilterType criteria.  
-        /// </summary>  
+        /// <summary>
+        /// To search claims in a JWT using predefined matching and filtering logic while optionally validating token expiration and audience.
+        /// </summary>
         /// <param name="jwtToken">JWT token.</param>  
         /// <param name="desiredClaims">Desired claims.</param>  
         /// <param name="matchType">Match type.</param>  
         /// <param name="filterType">Filter Type.</param>  
         /// <param name="isValidateTokenExpiration">Is validate token expiration.</param>  
         /// <param name="validAudiences">Valid audiences.</param>  
-        /// <returns>True/False.</returns>  
+        /// <returns></returns>
+        public bool SearchClaims(string jwtToken,
+                    IEnumerable<string> desiredClaims,
+                    ClaimMatchType matchType,
+                    ClaimFilterType filterType,
+                    bool isValidateTokenExpiration = false,
+                    string validAudiences = null)
+        {
+            try
+            {
+                return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Claim, isValidateTokenExpiration, validAudiences);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// To search roles in a JWT using predefined matching and filtering logic while optionally validating token expiration and audience.
+        /// </summary>
+        /// <param name="jwtToken">JWT token.</param>  
+        /// <param name="desiredClaims">Desired claims.</param>  
+        /// <param name="matchType">Match type.</param>  
+        /// <param name="filterType">Filter Type.</param>  
+        /// <param name="isValidateTokenExpiration">Is validate token expiration.</param>  
+        /// <param name="validAudiences">Valid audiences.</param>  
+        /// <returns></returns>
+        public bool SearchRoles(string jwtToken,
+                    IEnumerable<string> desiredClaims,
+                    ClaimMatchType matchType,
+                    ClaimFilterType filterType,
+                    bool isValidateTokenExpiration = false,
+                    string validAudiences = null)
+        {
+            try
+            {
+                return ValidateClaims(jwtToken, desiredClaims, matchType, filterType, ClaimType.Role, isValidateTokenExpiration, validAudiences);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Check if the desired claims are included in the JWT based on the specified MatchType and FilterType criteria.  
+        /// </summary>
+        /// <param name="jwtToken">JWT token.</param>  
+        /// <param name="desiredClaims">Desired claims.</param>  
+        /// <param name="matchType">Match type.</param>  
+        /// <param name="filterType">Filter Type.</param>  
+        /// <param name="claimType">Claim type.</param>  
+        /// <param name="isValidateTokenExpiration">Is validate token expiration.</param>  
+        /// <param name="validAudiences">Valid audiences.</param>  
         public bool ValidateClaims(
                     string jwtToken,
                     IEnumerable<string> desiredClaims,
                     ClaimMatchType matchType,
                     ClaimFilterType filterType,
+                    ClaimType claimType,
                     bool isValidateTokenExpiration = false,
                     string validAudiences = null)
         {
@@ -46,7 +101,7 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
             // Check expiration
             if (isValidateTokenExpiration)
             {
-                var expClaim = jwt.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
+                var expClaim = jwt.Claims.FirstOrDefault(c => c.Type == CommonClaimTypes.EXPIRATION)?.Value;
                 if (!long.TryParse(expClaim, out var expUnix))
                     throw new SecurityTokenException("Token 'exp' claim is missing or invalid.");
 
@@ -67,18 +122,37 @@ namespace Benraz.Infrastructure.Authorization.ClaimValidators
             }
 
             var principal = new ClaimsPrincipal(new ClaimsIdentity(jwt.Claims));
-            var userClaims = principal.Claims.Where(c => c.Type == CommonClaimTypes.CLAIM).Select(c => c.Value.ToUpperInvariant()).ToList();
+
+            // It filters the claims where the claim type matches CLAIM or Both (case-insensitive)
+            var userClaims = new List<string>();
+            if (claimType == ClaimType.Claim || claimType == ClaimType.Both)
+            {
+                userClaims.AddRange(
+                    principal.Claims
+                        .Where(c => c.Type.Equals(CommonClaimTypes.CLAIM, StringComparison.OrdinalIgnoreCase))
+                        .Select(c => c.Value.ToUpperInvariant())
+                );
+            }
+
+            // It filters the role where the claim type matches Role or Both (case-insensitive)
+            if (claimType == ClaimType.Role || claimType == ClaimType.Both)
+            {
+                userClaims.AddRange(
+                    principal.Claims
+                        .Where(c => c.Type.Equals(CommonClaimTypes.ROLE, StringComparison.OrdinalIgnoreCase))
+                        .Select(c => c.Value.ToUpperInvariant())
+                );
+            }
+
             var normalizedDesiredClaims = desiredClaims.Select(c => c.ToUpperInvariant()).ToList();
 
-            // Filter claims based on the filter type.
             Func<string, string, bool> matchFunc = filterType switch
             {
-                ClaimFilterType.Exact => (claim, desiredClaim) => claim == desiredClaim,
-                ClaimFilterType.Include => (claim, desiredClaim) => claim.Contains(desiredClaim),
+                ClaimFilterType.Exact => (claim, desired) => claim == desired,
+                ClaimFilterType.Include => (claim, desired) => claim.Contains(desired),
                 _ => throw new ArgumentOutOfRangeException(nameof(filterType))
             };
 
-            // Determine if the claims match based on the match type.
             bool result = matchType switch
             {
                 ClaimMatchType.All => normalizedDesiredClaims.All(dc => userClaims.Any(uc => matchFunc(uc, dc))),
