@@ -6,8 +6,13 @@
     public static class SharedClaims
     {
         /// <summary>
-        /// Read employee claim.
+        /// Read employee user claim.
         /// </summary>
-        public const string EMPLOYEE_READ = "authorization-employee-read";
+        public const string EMPLOYEE_USER_READ = "authorization-user-read-employee";
+
+        /// <summary>
+        /// Read admin user claim.
+        /// </summary>
+        public const string ADMIN_USER_READ = "authorization-user-read-admin";
     }
 }
