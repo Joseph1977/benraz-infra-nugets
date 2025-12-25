@@ -1,4 +1,6 @@
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Benraz.Infrastructure.Authorization;
 using Benraz.Infrastructure.Common.AccessControl;
 
 namespace Benraz.Infrastructure.Web.Authorization
@@ -17,7 +19,22 @@ namespace Benraz.Infrastructure.Web.Authorization
         public static void AddClaimsPolicy(
             this AuthorizationOptions options, string policyName, params string[] claimValues)
         {
-            options.AddPolicy(policyName, builder => builder.RequireClaim(CommonClaimTypes.CLAIM, claimValues));
+            options.AddPolicy(
+                policyName,
+                builder => builder.RequireAssertion(context =>
+                {
+                    if (AuthorizationToggle.IsAuthorizationDisabled)
+                    {
+                        return true;
+                    }
+
+                    if (claimValues == null || claimValues.Length == 0)
+                    {
+                        return false;
+                    }
+
+                    return claimValues.Any(value => context.User.HasClaim(CommonClaimTypes.CLAIM, value));
+                }));
         }
     }
 }
