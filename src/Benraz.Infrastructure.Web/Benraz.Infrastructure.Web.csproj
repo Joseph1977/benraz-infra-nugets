@@ -16,9 +16,9 @@
       <PackageLicenseUrl></PackageLicenseUrl>
       <PackageIconUrl></PackageIconUrl>
       <IsPackable>true</IsPackable>
-      <Version>1.0.3</Version>
-      <AssemblyVersion>1.0.3</AssemblyVersion>
-      <FileVersion>1.0.3</FileVersion>
+      <Version>1.0.4</Version>
+      <AssemblyVersion>1.0.4</AssemblyVersion>
+      <FileVersion>1.0.4</FileVersion>
       <AssemblyName>Benraz.Infrastructure.Web</AssemblyName>
       <RootNamespace>Benraz.Infrastructure.Web</RootNamespace>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Benraz.Infrastructure.Common\Benraz.Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\Benraz.Infrastructure.Authorization\Benraz.Infrastructure.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

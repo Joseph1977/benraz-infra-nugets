@@ -16,9 +16,9 @@
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageIconUrl></PackageIconUrl>
 		<IsPackable>true</IsPackable>
-		<Version>1.0.8</Version>
-		<AssemblyVersion>1.0.8</AssemblyVersion>
-		<FileVersion>1.0.8</FileVersion>
+		<Version>1.0.10</Version>
+		<AssemblyVersion>1.0.10</AssemblyVersion>
+		<FileVersion>1.0.10</FileVersion>
 		<AssemblyName>Benraz.Infrastructure.Common</AssemblyName>
 		<RootNamespace>Benraz.Infrastructure.Common</RootNamespace>
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildThisFileName).xml</DocumentationFile>
@@ -39,6 +39,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.12" />
 		<PackageReference Include="Twilio" Version="7.2.3" />
 	</ItemGroup>
 
