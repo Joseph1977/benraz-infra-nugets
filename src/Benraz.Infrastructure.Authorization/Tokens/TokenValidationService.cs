@@ -47,6 +47,12 @@ namespace Benraz.Infrastructure.Authorization.Tokens
         public IEnumerable<SecurityKey> IssuerSigningKeyResolver(
             string token, SecurityToken securityToken, string kid, TokenValidationParameters validationParameters)
         {
+            if (AuthorizationToggle.IsAuthorizationDisabled)
+            {
+                validationParameters.ValidateIssuerSigningKey = false;
+                return Array.Empty<SecurityKey>();
+            }
+
             var signingKeyCacheKey = GetSigningKeyCacheKey(kid);
 
             var remoteSigningKey = _memoryCache.Get<SecurityKey>(signingKeyCacheKey);
@@ -78,6 +84,12 @@ namespace Benraz.Infrastructure.Authorization.Tokens
         public string IssuerValidator(
             string issuer, SecurityToken securityToken, TokenValidationParameters validationParameters)
         {
+            if (AuthorizationToggle.IsAuthorizationDisabled)
+            {
+                validationParameters.ValidateIssuer = false;
+                return issuer;
+            }
+
             var issuerCacheKey = GetIssuerCacheKey();
 
             var remoteIssuer = _memoryCache.Get<string>(issuerCacheKey);
@@ -102,6 +114,12 @@ namespace Benraz.Infrastructure.Authorization.Tokens
         public bool AudienceValidator(
             IEnumerable<string> audiences, SecurityToken securityToken, TokenValidationParameters validationParameters)
         {
+            if (AuthorizationToggle.IsAuthorizationDisabled)
+            {
+                validationParameters.ValidateAudience = false;
+                return true;
+            }
+
             if (string.IsNullOrEmpty(_settings.Audience))
             {
                 return false;
@@ -118,6 +136,11 @@ namespace Benraz.Infrastructure.Authorization.Tokens
         /// <returns>Validation result.</returns>
         public bool ActiveValidator(string jti)
         {
+            if (AuthorizationToggle.IsAuthorizationDisabled)
+            {
+                return true;
+            }
+
             if (string.IsNullOrEmpty(jti))
             {
                 return true;
