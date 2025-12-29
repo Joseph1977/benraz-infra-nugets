@@ -63,8 +63,11 @@ namespace Benraz.Infrastructure.Files.Azure
 
             var blobServiceClient = this.GetBlobServiceClient();
             var containerClient = blobServiceClient.GetBlobContainerClient(_settings.BlobContainer);
-            var blobClient = this.GetAllBlobClients(containerClient, this.GetFullBlobPath(this.GetBlobName(fileName))).FirstOrDefault();
-            if (blobClient is not null && !await blobClient.ExistsAsync())
+
+            var fullBlobPath = this.GetFullBlobPath(this.GetBlobName(fileName));
+            var blobClient = containerClient.GetBlobClient(fullBlobPath);
+
+            if (!await blobClient.ExistsAsync())
             {
                 throw new ArgumentException($"Unable to find blob with name:{fileName}");
             }
